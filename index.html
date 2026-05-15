@@ -267,7 +267,14 @@ body {
 
 /* ── TAG CHIPS ── */
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-.chips input[type=checkbox] { display: none; }
+.chips input[type=checkbox],
+.chips input[type=radio] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
 .chips label {
   font-size: 13px;
   font-family: 'Outfit', sans-serif;
@@ -572,12 +579,15 @@ body {
       <div class="field">
         <label>Type</label>
         <select id="f-type">
+          <option>Pre-breakfast (nuts / soaked)</option>
           <option>Breakfast</option>
           <option>Mid-morning snack</option>
           <option>Lunch</option>
           <option>Afternoon snack</option>
           <option>Dinner</option>
           <option>Late snack</option>
+          <option>Coffee / Matcha</option>
+          <option>Herbal tea</option>
           <option>Pre-workout</option>
           <option>Post-workout</option>
         </select>
