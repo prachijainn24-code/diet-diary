@@ -500,6 +500,956 @@ body {
 </div>
 
 <!-- Bottom settings bar -->
+<div class="settings-bar" style="display:none">
+  <input class="settings-url" type="url" id="urlInput" placeholder="Paste Apps Script URL here..." />
+  <button class="save-url-btn" onclick="saveUrl()">Save</button>
+</div>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay" onclick="closeSheet()"></div>
+
+<!-- ── SHEETS ── -->
+
+<!-- Morning -->
+<div class="sheet" id="sheet-morning">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <div class="sheet-icon">🌅</div>
+    <div class="sheet-title">Morning Check-in</div>
+  </div>
+  <div class="sheet-body">
+    <div class="row3">
+      <div class="field">
+        <label>Weight (kg)</label>
+        <input type="number" id="m-weight" placeholder="54.2" step="0.1">
+      </div>
+      <div class="field">
+        <label>Sleep (hrs)</label>
+        <input type="number" id="m-sleep" placeholder="7.5" step="0.5" min="0" max="24">
+      </div>
+      <div class="field">
+        <label>Wake time</label>
+        <input type="time" id="m-wake">
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field">
+        <label>Energy (1-5)</label>
+        <select id="m-energy">
+          <option value="">–</option>
+          <option>1 – Exhausted</option>
+          <option>2 – Low</option>
+          <option>3 – Okay</option>
+          <option>4 – Good</option>
+          <option>5 – Great</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Stress (1-5)</label>
+        <select id="m-stress">
+          <option value="">–</option>
+          <option>1 – Very calm</option>
+          <option>2 – Relaxed</option>
+          <option>3 – Moderate</option>
+          <option>4 – Stressed</option>
+          <option>5 – Very stressed</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label>How do you feel?</label>
+      <textarea id="m-notes" placeholder="Bloated, refreshed, groggy, good..."></textarea>
+    </div>
+  </div>
+  <button class="submit-btn" onclick="submitEntry('morning')">✓ Log Morning</button>
+</div>
+
+<!-- Food -->
+<div class="sheet" id="sheet-food">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <div class="sheet-icon">🥗</div>
+    <div class="sheet-title">Meal / Snack</div>
+  </div>
+  <div class="sheet-body">
+    <div class="row2">
+      <div class="field">
+        <label>Type</label>
+        <select id="f-type">
+          <option>Breakfast</option>
+          <option>Mid-morning snack</option>
+          <option>Lunch</option>
+          <option>Afternoon snack</option>
+          <option>Dinner</option>
+          <option>Late snack</option>
+          <option>Pre-workout</option>
+          <option>Post-workout</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Time</label>
+        <input type="time" id="f-time">
+      </div>
+    </div>
+    <div class="field">
+      <label>What did you eat?</label>
+      <textarea id="f-food" placeholder="e.g. oats with banana, almond butter, oat milk..."></textarea>
+    </div>
+    <div class="row2">
+      <div class="field">
+        <label>Portion</label>
+        <select id="f-portion">
+          <option>Small</option>
+          <option selected>Medium</option>
+          <option>Large</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Ate at</label>
+        <select id="f-location">
+          <option>Home</option>
+          <option>Restaurant</option>
+          <option>Office</option>
+          <option>On the go</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label>How did it feel? (optional)</label>
+      <input type="text" id="f-feeling" placeholder="Heavy, light, satisfied, still hungry...">
+    </div>
+  </div>
+  <button class="submit-btn" onclick="submitEntry('food')">✓ Log Meal</button>
+</div>
+
+<!-- Water -->
+<div class="sheet" id="sheet-water">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <div class="sheet-icon">💧</div>
+    <div class="sheet-title">Hydration</div>
+  </div>
+  <div class="sheet-body">
+    <div class="field">
+      <label>Amount (litres)</label>
+      <select id="w-amount">
+        <option>0.25L</option>
+        <option>0.5L</option>
+        <option selected>1L</option>
+        <option>1.5L</option>
+        <option>2L</option>
+        <option>2.5L</option>
+        <option>3L</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Type</label>
+      <div class="chips">
+        <input type="radio" name="wtype" id="wt1" value="Water" checked><label for="wt1">💧 Water</label>
+        <input type="radio" name="wtype" id="wt2" value="Coconut water"><label for="wt2">🥥 Coconut water</label>
+        <input type="radio" name="wtype" id="wt3" value="Nimbu pani"><label for="wt3">🍋 Nimbu pani</label>
+        <input type="radio" name="wtype" id="wt4" value="Herbal tea"><label for="wt4">🍵 Herbal tea</label>
+        <input type="radio" name="wtype" id="wt5" value="Coffee"><label for="wt5">☕ Coffee</label>
+        <input type="radio" name="wtype" id="wt6" value="Juice"><label for="wt6">🧃 Juice</label>
+      </div>
+    </div>
+  </div>
+  <button class="submit-btn" onclick="submitEntry('water')">✓ Log Hydration</button>
+</div>
+
+<!-- Workout -->
+<div class="sheet" id="sheet-workout">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <div class="sheet-icon">🏋️</div>
+    <div class="sheet-title">Workout</div>
+  </div>
+  <div class="sheet-body">
+    <div class="field">
+      <label>Type</label>
+      <div class="chips">
+        <input type="radio" name="wktype" id="wk1" value="Pilates – Reformer" checked><label for="wk1">Pilates Reformer</label>
+        <input type="radio" name="wktype" id="wk2" value="Pilates – Mat"><label for="wk2">Pilates Mat</label>
+        <input type="radio" name="wktype" id="wk3" value="Strength Training"><label for="wk3">Strength</label>
+        <input type="radio" name="wktype" id="wk4" value="Cardio"><label for="wk4">Cardio</label>
+        <input type="radio" name="wktype" id="wk5" value="Yoga"><label for="wk5">Yoga</label>
+        <input type="radio" name="wktype" id="wk6" value="Walk"><label for="wk6">Walk</label>
+        <input type="radio" name="wktype" id="wk7" value="Other"><label for="wk7">Other</label>
+      </div>
+    </div>
+    <div class="row3">
+      <div class="field">
+        <label>Duration</label>
+        <select id="wk-duration">
+          <option>15 min</option>
+          <option>20 min</option>
+          <option>30 min</option>
+          <option selected>45 min</option>
+          <option>60 min</option>
+          <option>75 min</option>
+          <option>90 min</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Time</label>
+        <input type="time" id="wk-time">
+      </div>
+      <div class="field">
+        <label>Intensity</label>
+        <select id="wk-intensity">
+          <option>Light</option>
+          <option selected>Moderate</option>
+          <option>Intense</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label>Notes</label>
+      <input type="text" id="wk-notes" placeholder="How did it feel? Sore, great, skipped sections...">
+    </div>
+  </div>
+  <button class="submit-btn" onclick="submitEntry('workout')">✓ Log Workout</button>
+</div>
+
+<!-- Digestion -->
+<div class="sheet" id="sheet-digest">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <div class="sheet-icon">🌿</div>
+    <div class="sheet-title">Digestion & Body</div>
+  </div>
+  <div class="sheet-body">
+    <div class="field">
+      <label>How's digestion?</label>
+      <select id="d-level">
+        <option>Excellent – no issues</option>
+        <option>Good – slight discomfort</option>
+        <option>Fair – noticeably off</option>
+        <option>Poor – significant issues</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Symptoms</label>
+      <div class="chips">
+        <input type="checkbox" id="ds1" value="Bloating"><label for="ds1">Bloating</label>
+        <input type="checkbox" id="ds2" value="Acidity"><label for="ds2">Acidity</label>
+        <input type="checkbox" id="ds3" value="Nausea"><label for="ds3">Nausea</label>
+        <input type="checkbox" id="ds4" value="Constipation"><label for="ds4">Constipation</label>
+        <input type="checkbox" id="ds5" value="Loose stools"><label for="ds5">Loose stools</label>
+        <input type="checkbox" id="ds6" value="Skin breakout"><label for="ds6">Skin breakout</label>
+        <input type="checkbox" id="ds7" value="Headache"><label for="ds7">Headache</label>
+        <input type="checkbox" id="ds8" value="Fatigue"><label for="ds8">Fatigue</label>
+        <input type="checkbox" id="ds9" value="None"><label for="ds9">None ✓</label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Notes</label>
+      <textarea id="d-notes" placeholder="Anything oily, spicy, ate out? Something triggered this?"></textarea>
+    </div>
+  </div>
+  <button class="submit-btn" onclick="submitEntry('digest')">✓ Log Digestion</button>
+</div>
+
+<!-- Evening -->
+<div class="sheet" id="sheet-evening">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <div class="sheet-icon">🌙</div>
+    <div class="sheet-title">Evening Wrap-up</div>
+  </div>
+  <div class="sheet-body">
+    <div class="row2">
+      <div class="field">
+        <label>Hunger today</label>
+        <select id="e-hunger">
+          <option>Very hungry</option>
+          <option>Slightly hungry</option>
+          <option selected>Satisfied</option>
+          <option>Overate</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Bedtime</label>
+        <input type="time" id="e-bed">
+      </div>
+    </div>
+    <div class="field">
+      <label>Cravings today</label>
+      <input type="text" id="e-cravings" placeholder="Sweet, salty, fried, nothing...">
+    </div>
+    <div class="field">
+      <label>Day rating</label>
+      <div class="chips">
+        <input type="radio" name="dayrating" id="dr1" value="1"><label for="dr1">⭐ 1</label>
+        <input type="radio" name="dayrating" id="dr2" value="2"><label for="dr2">⭐ 2</label>
+        <input type="radio" name="dayrating" id="dr3" value="3" checked><label for="dr3">⭐ 3</label>
+        <input type="radio" name="dayrating" id="dr4" value="4"><label for="dr4">⭐ 4</label>
+        <input type="radio" name="dayrating" id="dr5" value="5"><label for="dr5">⭐ 5</label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Notes for nutritionist</label>
+      <textarea id="e-notes" placeholder="Period, illness, travel, unusual day, anything to flag..."></textarea>
+    </div>
+  </div>
+  <button class="submit-btn" onclick="submitEntry('evening')">✓ Log Evening</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── CONFIG ──
+const SHEETS_URL_KEY = 'hlog_sheets_url';
+let sheetsUrl = 'https://script.google.com/macros/s/AKfycbzReiEYn9i4_pTY0HEKUeDNakHGHPJyM4EGq9as3_RSENoAI7EjXeU9zdGrbNX5d5yNuQ/exec';
+localStorage.setItem(SHEETS_URL_KEY, sheetsUrl);
+
+window.onload = () => {
+  // Set date
+  const now = new Date();
+  document.getElementById('headerDate').textContent =
+    now.toLocaleDateString('en-IN', { weekday:'long', day:'numeric', month:'long' });
+
+  // Set default times to now
+  const timeStr = now.toTimeString().slice(0,5);
+  ['m-wake','f-time','wk-time','e-bed'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.value = timeStr;
+  });
+
+  if(sheetsUrl) document.getElementById('urlInput').value = sheetsUrl;
+  renderFeed();
+};
+
+function saveUrl() {
+  const val = document.getElementById('urlInput').value.trim();
+  if(!val) return;
+  localStorage.setItem(SHEETS_URL_KEY, val);
+  sheetsUrl = val;
+  toast('✓ URL saved!');
+}
+
+// ── SHEET OPEN/CLOSE ──
+let currentSheet = null;
+
+function openSheet(name) {
+  currentSheet = name;
+  document.getElementById('overlay').classList.add('show');
+  document.getElementById(`sheet-${name}`).classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSheet() {
+  if(!currentSheet) return;
+  document.getElementById('overlay').classList.remove('show');
+  document.getElementById(`sheet-${currentSheet}`).classList.remove('show');
+  document.body.style.overflow = '';
+  currentSheet = null;
+}
+
+// ── SUBMIT ──
+async function submitEntry(type) {
+  if(!sheetsUrl) {
+    toast('⚠ Paste your Apps Script URL at the bottom first', true);
+    return;
+  }
+
+  const now = new Date();
+  const time = now.toTimeString().slice(0,5);
+  const date = now.toISOString().slice(0,10);
+  let data = { type, date, loggedAt: time };
+
+  if(type === 'morning') {
+    data.weight = document.getElementById('m-weight').value;
+    data.sleep = document.getElementById('m-sleep').value;
+    data.wakeTime = document.getElementById('m-wake').value;
+    data.energy = document.getElementById('m-energy').value;
+    data.stress = document.getElementById('m-stress').value;
+    data.notes = document.getElementById('m-notes').value;
+  } else if(type === 'food') {
+    data.mealType = document.getElementById('f-type').value;
+    data.mealTime = document.getElementById('f-time').value;
+    data.food = document.getElementById('f-food').value;
+    data.portion = document.getElementById('f-portion').value;
+    data.location = document.getElementById('f-location').value;
+    data.feeling = document.getElementById('f-feeling').value;
+    if(!data.food) { toast('Add what you ate!', true); return; }
+  } else if(type === 'water') {
+    data.amount = document.getElementById('w-amount').value;
+    data.drinkType = document.querySelector('[name="wtype"]:checked')?.value || 'Water';
+  } else if(type === 'workout') {
+    data.workoutType = document.querySelector('[name="wktype"]:checked')?.value || '';
+    data.duration = document.getElementById('wk-duration').value;
+    data.workoutTime = document.getElementById('wk-time').value;
+    data.intensity = document.getElementById('wk-intensity').value;
+    data.notes = document.getElementById('wk-notes').value;
+  } else if(type === 'digest') {
+    data.level = document.getElementById('d-level').value;
+    data.symptoms = [...document.querySelectorAll('[id^="ds"]:checked')].map(c=>c.value).join(', ') || 'None';
+    data.notes = document.getElementById('d-notes').value;
+  } else if(type === 'evening') {
+    data.hunger = document.getElementById('e-hunger').value;
+    data.bedtime = document.getElementById('e-bed').value;
+    data.cravings = document.getElementById('e-cravings').value;
+    data.dayRating = document.querySelector('[name="dayrating"]:checked')?.value || '';
+    data.notes = document.getElementById('e-notes').value;
+  }
+
+  // Save locally first
+  saveLocal(data);
+  closeSheet();
+  renderFeed();
+  updateStats();
+  toast('✓ Logged!');
+
+  // Send to Sheets
+  try {
+    await fetch(sheetsUrl, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch(err) {
+    console.log('Sheet sync failed:', err);
+  }
+}
+
+// ── LOCAL STORAGE LOG ──
+function todayKey() { return 'hlog_' + new Date().toISOString().slice(0,10); }
+
+function saveLocal(entry) {
+  const key = todayKey();
+  const existing = JSON.parse(localStorage.getItem(key) || '[]');
+  existing.push(entry);
+  localStorage.setItem(key, JSON.stringify(existing));
+}
+
+function getToday() {
+  return JSON.parse(localStorage.getItem(todayKey()) || '[]');
+}
+
+function updateStats() {
+  const entries = getToday();
+  const water = entries.filter(e => e.type === 'water')
+    .reduce((s,e) => s + parseFloat(e.amount || 0), 0);
+  const meals = entries.filter(e => e.type === 'food').length;
+  const workout = entries.find(e => e.type === 'workout');
+
+  document.getElementById('waterCount').textContent = water.toFixed(1);
+  document.getElementById('mealCount').textContent = meals;
+  document.getElementById('workoutLogged').textContent = workout ? workout.workoutType.split('–')[0].trim() : '–';
+}
+
+function renderFeed() {
+  const entries = getToday();
+  const feed = document.getElementById('logFeed');
+  updateStats();
+
+  if(!entries.length) {
+    feed.innerHTML = '<div class="log-empty">Nothing logged yet today.<br>Tap a button above to start.</div>';
+    return;
+  }
+
+  const icons = { morning:'🌅', food:'🥗', water:'💧', workout:'🏋️', digest:'🌿', evening:'🌙' };
+  const labels = { morning:'Morning', food:'Meal', water:'Water', workout:'Workout', digest:'Digestion', evening:'Evening' };
+
+  feed.innerHTML = [...entries].reverse().map(e => {
+    let main = '';
+    let sub = '';
+    if(e.type === 'morning') { main = `${e.weight ? e.weight+'kg' : ''}${e.weight && e.sleep ? ' · ' : ''}${e.sleep ? e.sleep+'hrs sleep' : ''}`; sub = e.notes || ''; }
+    else if(e.type === 'food') { main = e.mealType; sub = e.food; }
+    else if(e.type === 'water') { main = `${e.amount} ${e.drinkType}`; sub = ''; }
+    else if(e.type === 'workout') { main = e.workoutType; sub = `${e.duration} · ${e.intensity}`; }
+    else if(e.type === 'digest') { main = e.level.split('–')[0].trim(); sub = e.symptoms !== 'None' ? e.symptoms : ''; }
+    else if(e.type === 'evening') { main = `Day: ${e.dayRating}⭐`; sub = e.cravings ? `Cravings: ${e.cravings}` : ''; }
+
+    return `<div class="log-item">
+      <div class="log-item-icon">${icons[e.type]}</div>
+      <div class="log-item-content">
+        <div class="log-item-type">${labels[e.type]}</div>
+        <div class="log-item-main">${main || '–'}</div>
+        ${sub ? `<div class="log-item-sub">${sub}</div>` : ''}
+      </div>
+      <div class="log-item-time">${e.loggedAt || ''}</div>
+    </div>`;
+  }).join('');
+}
+
+function toast(msg, err=false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast' + (err?' err':'');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>/* ── HEADER ── */
+.app-header {
+  background: var(--green);
+  padding: 52px 24px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.app-header::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+}
+
+.header-date {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 6px;
+}
+
+.header-title {
+  font-family: 'Fraunces', serif;
+  font-size: 28px;
+  font-weight: 300;
+  color: white;
+  line-height: 1.1;
+}
+
+.header-title em {
+  font-style: italic;
+  color: #C9A052;
+}
+
+.header-stats {
+  display: flex;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.stat-pill {
+  background: rgba(255,255,255,0.1);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.8);
+  font-family: 'DM Mono', monospace;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stat-pill span { color: var(--gold); font-weight: 500; }
+
+/* ── QUICK LOG BUTTONS ── */
+.quick-section {
+  padding: 20px 16px 8px;
+}
+
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 0 4px;
+  margin-bottom: 12px;
+}
+
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.quick-btn {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 16px 14px;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.quick-btn:active {
+  transform: scale(0.97);
+  background: var(--green-light);
+}
+
+.quick-btn .qb-icon {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.quick-btn .qb-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.quick-btn .qb-sub {
+  font-size: 11px;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+}
+
+.quick-btn.morning { border-color: #D4A844; background: #FFFBF0; }
+.quick-btn.food { border-color: #8EBA84; background: #F4FBF2; }
+.quick-btn.water { border-color: #84AEBA; background: #F2F8FB; }
+.quick-btn.workout { border-color: #BA9484; background: #FBF6F4; }
+.quick-btn.digest { border-color: #A484BA; background: #F8F4FB; }
+.quick-btn.mood { border-color: #BA8484; background: #FBF4F4; }
+
+/* ── BOTTOM SHEET / MODAL ── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+  backdrop-filter: blur(2px);
+}
+
+.overlay.show { opacity: 1; pointer-events: all; }
+
+.sheet {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  max-width: 430px;
+  margin: 0 auto;
+  background: var(--card);
+  border-radius: 24px 24px 0 0;
+  z-index: 101;
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+  max-height: 92vh;
+  overflow-y: auto;
+  padding-bottom: 40px;
+}
+
+.sheet.show { transform: translateY(0); }
+
+.sheet-handle {
+  width: 36px; height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  margin: 12px auto 0;
+}
+
+.sheet-header {
+  padding: 16px 24px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sheet-icon { font-size: 28px; }
+
+.sheet-title {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--green);
+}
+
+.sheet-body {
+  padding: 20px 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ── FORM FIELDS ── */
+.field { display: flex; flex-direction: column; gap: 6px; }
+
+.field label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 13px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--green);
+  background: white;
+}
+
+.field textarea { min-height: 80px; resize: none; line-height: 1.5; }
+
+.field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A8078' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+/* ── TAG CHIPS ── */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chips input[type=checkbox] { display: none; }
+.chips label {
+  font-size: 13px;
+  font-family: 'Outfit', sans-serif;
+  padding: 7px 14px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: var(--bg);
+  cursor: pointer;
+  color: var(--muted);
+  transition: all 0.12s;
+}
+.chips input:checked + label {
+  background: var(--green);
+  color: white;
+  border-color: var(--green);
+}
+
+/* ── SUBMIT BTN ── */
+.submit-btn {
+  margin: 20px 20px 0;
+  width: calc(100% - 40px);
+  background: var(--green);
+  color: white;
+  border: none;
+  padding: 16px;
+  border-radius: 14px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.submit-btn:active { transform: scale(0.98); background: #1E3329; }
+
+/* ── TODAY'S LOG ── */
+.log-section { padding: 8px 16px; }
+
+.log-empty {
+  text-align: center;
+  padding: 32px 20px;
+  color: var(--muted);
+  font-size: 13px;
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.5px;
+  line-height: 1.8;
+}
+
+.log-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.log-item-icon {
+  font-size: 20px;
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.log-item-content { flex: 1; min-width: 0; }
+
+.log-item-type {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 3px;
+}
+
+.log-item-main {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.log-item-sub {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.log-item-time {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+/* ── TOAST ── */
+.toast {
+  position: fixed;
+  bottom: 100px; left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--green);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 24px;
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0;
+  transition: all 0.3s;
+  z-index: 999;
+  white-space: nowrap;
+  box-shadow: 0 4px 20px rgba(44,74,62,0.3);
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast.err { background: #8B3A3A; }
+
+/* ── SETTINGS ── */
+.settings-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  max-width: 430px;
+  margin: 0 auto;
+  background: var(--card);
+  border-top: 1px solid var(--border);
+  padding: 12px 20px 28px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 50;
+}
+
+.settings-url {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-size: 12px;
+  font-family: 'DM Mono', monospace;
+  color: var(--muted);
+  background: var(--bg);
+  -webkit-appearance: none;
+}
+
+.settings-url:focus { outline: none; border-color: var(--green); }
+
+.save-url-btn {
+  background: var(--green);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="app-header">
+  <div class="header-date" id="headerDate"></div>
+  <div class="header-title">Today's<br><em>Health Log</em></div>
+  <div class="header-stats">
+    <div class="stat-pill">💧 <span id="waterCount">0</span>L</div>
+    <div class="stat-pill">🥗 <span id="mealCount">0</span> meals</div>
+    <div class="stat-pill">🏋️ <span id="workoutLogged">–</span></div>
+  </div>
+</div>
+
+<!-- Quick Log Buttons -->
+<div class="quick-section">
+  <div class="section-label">Log now</div>
+  <div class="quick-grid">
+    <button class="quick-btn morning" onclick="openSheet('morning')">
+      <div class="qb-icon">🌅</div>
+      <div class="qb-label">Morning</div>
+      <div class="qb-sub">weight · sleep · mood</div>
+    </button>
+    <button class="quick-btn food" onclick="openSheet('food')">
+      <div class="qb-icon">🥗</div>
+      <div class="qb-label">Meal / Snack</div>
+      <div class="qb-sub">what · when · how much</div>
+    </button>
+    <button class="quick-btn water" onclick="openSheet('water')">
+      <div class="qb-icon">💧</div>
+      <div class="qb-label">Water</div>
+      <div class="qb-sub">hydration check-in</div>
+    </button>
+    <button class="quick-btn workout" onclick="openSheet('workout')">
+      <div class="qb-icon">🏋️</div>
+      <div class="qb-label">Workout</div>
+      <div class="qb-sub">Pilates · gym · walk</div>
+    </button>
+    <button class="quick-btn digest" onclick="openSheet('digest')">
+      <div class="qb-icon">🌿</div>
+      <div class="qb-label">Digestion</div>
+      <div class="qb-sub">gut · symptoms</div>
+    </button>
+    <button class="quick-btn mood" onclick="openSheet('evening')">
+      <div class="qb-icon">🌙</div>
+      <div class="qb-label">Evening</div>
+      <div class="qb-sub">wrap-up · notes</div>
+    </button>
+  </div>
+</div>
+
+<!-- Today's entries -->
+<div class="log-section">
+  <div class="section-label" style="margin-top:16px;">Today's entries</div>
+  <div id="logFeed">
+    <div class="log-empty">Nothing logged yet today.<br>Tap a button above to start.</div>
+  </div>
+</div>
+
+<!-- Bottom settings bar -->
 <div class="settings-bar">
   <input class="settings-url" type="url" id="urlInput" placeholder="Paste Apps Script URL here..." />
   <button class="save-url-btn" onclick="saveUrl()">Save</button>
